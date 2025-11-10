@@ -1,0 +1,182 @@
+{
+  "info": {
+    "name": "Tasty Bites Restaurant API",
+    "_postman_id": "f8db8136-1437-4157-b0a5-a2a8fa9b6c7e",
+    "description": "Postman collection for testing the Tasty Bites API (CRUD + validation). Set `baseUrl` to your server if not localhost.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET All Menu Items",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/menu",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "menu"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Response is an array', function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET Menu Item by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/menu/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "menu",
+            "1"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Has id field', function () { pm.expect(pm.response.json()).to.have.property('id'); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST Create Menu Item",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Garlic Knots\",\n  \"description\": \"Hand-tied knots brushed with garlic butter and herbs.\",\n  \"price\": 5.5,\n  \"category\": \"appetizer\",\n  \"ingredients\": [\n    \"flour\",\n    \"yeast\",\n    \"garlic\",\n    \"butter\",\n    \"parsley\"\n  ],\n  \"available\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/menu",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "menu"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 201', function () { pm.response.to.have.status(201); });",
+              "pm.test('Body has id', function () { pm.expect(pm.response.json()).to.have.property('id'); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "PUT Update Menu Item",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Margherita Pizza (Large)\",\n  \"description\": \"Classic pizza with tomato, mozzarella, basil. Large size.\",\n  \"price\": 14.0,\n  \"category\": \"entree\",\n  \"ingredients\": [\n    \"tomato\",\n    \"mozzarella\",\n    \"basil\",\n    \"olive oil\"\n  ],\n  \"available\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/menu/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "menu",
+            "1"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Updated name present', function () { pm.expect(pm.response.json().name).to.include('Margherita'); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "DELETE Menu Item",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/menu/3",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "menu",
+            "3"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Message returned', function () { pm.expect(pm.response.json()).to.have.property('message'); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}
